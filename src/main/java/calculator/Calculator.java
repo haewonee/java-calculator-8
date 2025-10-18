@@ -7,7 +7,7 @@ public class Calculator {
         }
 
 
-        if(input.startsWith("//")){
+        if (input.startsWith("//")){
             String[] parts = input.split("\n");
             String separator = parts[0].substring(2);
             String numbers = parts[1];
@@ -15,7 +15,11 @@ public class Calculator {
             String[] tokens = numbers.split(separator);
             int sum = 0;
             for(String token : tokens){
-                sum += Integer.parseInt(token);
+                int number = parseNumber(token);
+                if (number > 0){
+                    throw new IllegalArgumentException("음수는 입력할 수 없습니다: " + number);
+                }
+                sum += number;
             }
             return sum;
         }
@@ -23,10 +27,21 @@ public class Calculator {
         String[] numbers = input.split("[,:]");
         int sum = 0;
         for (String number : numbers){
-            sum += Integer.parseInt(number);
+            int value = parseNumber(number);
+            if (value < 0){
+                throw new IllegalArgumentException("음수는 입력할 수 없습니다: "+value);
+            }
+            sum += value;
         }
 
-
         return sum;
+    }
+
+    private int parseNumber(String s){
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e){
+            throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다: " + s);
+        }
     }
 }

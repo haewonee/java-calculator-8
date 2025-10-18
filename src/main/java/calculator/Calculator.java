@@ -19,6 +19,7 @@ public class Calculator {
 
             String[] tokens = numbers.split(Pattern.quote(separator));
             int sum = 0;
+
             for(String token : tokens){
                 int number = parseNumber(token);
                 if (number < 0){
